@@ -9,3 +9,4 @@ mvnw.cmd
 .classpath
 .project
 .settings/
+src/main/resources/access.properties
