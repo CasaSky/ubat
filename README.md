@@ -1,6 +1,6 @@
-#UBAT | Universal Blockchain Access Technology
+# UBAT | Universal Blockchain Access Technology
 
-##A core system that exposes blockchain as a rest api service
+## A core system that exposes blockchain as a rest api service
 
 test the rest api service:
 
