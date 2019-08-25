@@ -10,6 +10,8 @@ public class UbatService {
     @Autowired
     private Web3jClient web3jClient;
 
+    private static final double WEI_TO_ETH = 1e18;
+
     public String getClientVersion() throws Exception {
 
         return web3jClient.getClientVersion();
@@ -17,7 +19,7 @@ public class UbatService {
 
     public String getBalance(String address) throws Exception {
 
-        return web3jClient.getBalance(address);
+        return String.valueOf(web3jClient.getBalance(address).doubleValue() / WEI_TO_ETH);
     }
 
     public String getBlockNumber() throws Exception {
