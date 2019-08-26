@@ -17,8 +17,7 @@ public class UbatService {
 
     public InfoDto getInfo(String address) throws Exception {
 
-        InfoDto infoDto = new InfoDto(getClientVersion(), address, getBlockNumber(), getBalance(address) + " Ξ");
-        return infoDto;
+        return new InfoDto(getClientVersion(), address, getBlockNumber(), getBalance(address) + " Ξ");
     }
 
     public String getClientVersion() throws Exception {

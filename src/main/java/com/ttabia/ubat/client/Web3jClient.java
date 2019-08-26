@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class Web3jClient {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(Web3jClient.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(Web3jClient.class);
 
     private static final String INFURA_MAINNET = "https://mainnet.infura.io/";
 
@@ -34,8 +34,7 @@ public class Web3jClient {
 
         try {
             Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
-            String clientVersion = web3ClientVersion.getWeb3ClientVersion();
-            return clientVersion;
+            return web3ClientVersion.getWeb3ClientVersion();
         } catch (IOException e) {
             LOGGER.error("Internal error", e);
             throw new Exception(e.getMessage());
@@ -45,8 +44,7 @@ public class Web3jClient {
     public BigInteger getBalance(String address) throws Exception {
 
         try {
-            BigInteger balance = web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
-            return balance;
+            return web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
         } catch (InterruptedException | ExecutionException e) {
             LOGGER.error("Internal error", e);
             throw new Exception(e.getMessage());
@@ -56,8 +54,7 @@ public class Web3jClient {
     public BigInteger getBlockNumber() throws Exception {
 
         try {
-            BigInteger blockNumber = web3.ethBlockNumber().send().getBlockNumber();
-            return blockNumber;
+            return web3.ethBlockNumber().send().getBlockNumber();
         } catch (IOException e) {
             LOGGER.error("Internal error", e);
             throw new Exception(e.getMessage());
