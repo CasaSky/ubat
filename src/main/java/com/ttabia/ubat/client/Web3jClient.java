@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 
@@ -14,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -43,8 +45,7 @@ public class Web3jClient {
     public BigInteger getBalance(String address) throws Exception {
 
         try {
-            BigInteger blockNumber = getBlockNumber();
-            BigInteger balance = web3.ethGetBalance(address, DefaultBlockParameter.valueOf(blockNumber)).sendAsync().get().getBalance();
+            BigInteger balance = web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get().getBalance();
             return balance;
         } catch (InterruptedException | ExecutionException e) {
             LOGGER.error("Internal error", e);
@@ -62,6 +63,12 @@ public class Web3jClient {
             throw new Exception(e.getMessage());
         }
     }
+
+    public Optional<Transaction> getTransactionDetail(String transactionHash) throws Exception {
+
+        return web3.ethGetTransactionByHash(transactionHash).sendAsync().get().getTransaction();
+    }
+
 
     @PostConstruct
     public void connect() {
