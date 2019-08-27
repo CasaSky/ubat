@@ -1,17 +1,23 @@
 package com.ttabia.ubat.service;
 
 import com.ttabia.ubat.client.Web3jClient;
+import com.ttabia.ubat.dto.ConversionResponse;
 import com.ttabia.ubat.dto.InfoDto;
 import com.ttabia.ubat.dto.TransactionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.protocol.core.methods.response.Transaction;
 
+import java.math.BigDecimal;
+
 @Service
 public class UbatService {
 
     @Autowired
     private Web3jClient web3jClient;
+
+    @Autowired
+    private CurrencyConverter currencyConverter;
 
     private static final double WEI_TO_ETH = 1e18;
 
@@ -39,5 +45,10 @@ public class UbatService {
 
         Transaction transaction = web3jClient.getTransactionDetail(transactionHash).orElseThrow(TransactionHashNotFoundException::new);
         return new TransactionDto(transaction);
+    }
+
+    public ConversionResponse cryptoToFiat(String currency, BigDecimal amount) throws Exception {
+
+        return currencyConverter.toFiat(CryptoCurrency.valueOf(currency), amount);
     }
 }
